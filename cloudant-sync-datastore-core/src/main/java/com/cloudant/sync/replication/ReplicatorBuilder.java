@@ -24,6 +24,8 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * A Builder to create a {@link Replicator Object}
@@ -40,6 +42,9 @@ public abstract class ReplicatorBuilder<S, T, E> {
             <HttpConnectionRequestInterceptor>();
     private List<HttpConnectionResponseInterceptor> responseInterceptors = new ArrayList
             <HttpConnectionResponseInterceptor>();
+
+    private static final Logger logger = Logger.getLogger(ReplicatorBuilder.class
+            .getCanonicalName());
 
     private URI addCookieInterceptorIfRequired(URI uri) {
         String uriProtocol = uri.getScheme();
@@ -200,7 +205,7 @@ public abstract class ReplicatorBuilder<S, T, E> {
             // add cookie interceptor and remove creds from URI if required
             super.source = super.addCookieInterceptorIfRequired(super.source);
 
-            PullStrategy pullStrategy = new PullStrategy(super.source,
+            PullStrategy pullStrategy = new PullStrategy2(super.source,
                     super.target,
                     pullPullFilter,
                     super.requestInterceptors,

@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -274,6 +275,12 @@ public class CouchClient  {
         options.put("style", "all_docs");
         options.put("feed", "normal");
         return options;
+    }
+
+    public AllDocsResult getAllDocs(final Map<String, Object> options) {
+        URI allDocsUri = uriHelper.allDocsUri(options);
+        HttpConnection connection = Http.GET(allDocsUri);
+        return executeToJsonObjectWithRetry(connection, AllDocsResult.class);
     }
 
     public ChangesResult changes(Object since) {

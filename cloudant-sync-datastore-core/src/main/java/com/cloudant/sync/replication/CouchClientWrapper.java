@@ -16,13 +16,7 @@ package com.cloudant.sync.replication;
 
 import com.cloudant.http.HttpConnectionRequestInterceptor;
 import com.cloudant.http.HttpConnectionResponseInterceptor;
-import com.cloudant.mazha.ChangesResult;
-import com.cloudant.mazha.CouchClient;
-import com.cloudant.mazha.CouchException;
-import com.cloudant.mazha.DocumentRevs;
-import com.cloudant.mazha.OkOpenRevision;
-import com.cloudant.mazha.OpenRevision;
-import com.cloudant.mazha.Response;
+import com.cloudant.mazha.*;
 import com.cloudant.sync.datastore.Attachment;
 import com.cloudant.sync.datastore.DocumentRevision;
 import com.cloudant.sync.datastore.DocumentRevsList;
@@ -33,12 +27,7 @@ import com.google.common.base.Strings;
 
 import java.io.InputStream;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 /**
@@ -113,6 +102,13 @@ public class CouchClientWrapper implements CouchDB {
         } else {
             createCheckpoint(replicatorLocalDocId, sequence);
         }
+    }
+
+    @Override
+    public AllDocsResult getAllDocs(boolean includeDocs) {
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put("include_docs", includeDocs);
+        return couchClient.getAllDocs(options);
     }
 
     @Override

@@ -56,6 +56,23 @@ public class CouchURIHelper {
         return this.rootUri;
     }
 
+
+    // mw:start
+    /**
+     * Returns URI for {@code _all_docs} endpoint.
+     */
+    public URI allDocsUri(Map<String, Object> query) {
+        String base_uri = String.format(
+                "%s/%s",
+                this.rootUriString,
+                "_all_docs"
+        );
+
+        String uri = appendQueryString(base_uri, query);
+        return uriFor(uri);
+    }
+    // mw:end
+
     /**
      * Returns URI for {@code _changes} endpoint using passed
      * {@code query}.

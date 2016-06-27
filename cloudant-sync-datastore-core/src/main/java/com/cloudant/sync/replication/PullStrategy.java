@@ -302,8 +302,12 @@ class PullStrategy implements ReplicationStrategy {
         logger.info(feed);
 
         Multimap<String, String> openRevs = changeFeeds.openRevisions(0, changeFeeds.size());
+        System.out.println("OPEN REVS: " + openRevs.toString());
+
         Map<String, Collection<String>> missingRevisions = this.targetDb.getDbCore().revsDiff
                 (openRevs);
+
+        System.out.println("MISSING REVISIONS: " + missingRevisions.toString());
 
         int changesProcessed = 0;
 
@@ -436,7 +440,7 @@ class PullStrategy implements ReplicationStrategy {
         return new String(sha1Hex, Charset.forName("UTF-8"));
     }
 
-    private ChangesResultWrapper nextBatch() throws DatastoreException {
+    protected ChangesResultWrapper nextBatch() throws DatastoreException {
         final Object lastCheckpoint = this.targetDb.getCheckpoint(this.getReplicationId());
         logger.fine("last checkpoint " + lastCheckpoint);
         ChangesResult changeFeeds = this.sourceDb.changes(

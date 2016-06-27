@@ -12,6 +12,7 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.support.v4.content.WakefulBroadcastReceiver;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -147,6 +148,8 @@ public abstract class ReplicationService extends Service
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Log.d("TestSync","HELLO, ANYONE THERE?");
 
         WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (wifiManager != null) {

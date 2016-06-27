@@ -14,10 +14,7 @@
 
 package com.cloudant.sync.replication;
 
-import com.cloudant.mazha.ChangesResult;
-import com.cloudant.mazha.CouchClient;
-import com.cloudant.mazha.DocumentRevs;
-import com.cloudant.mazha.Response;
+import com.cloudant.mazha.*;
 import com.cloudant.sync.datastore.DocumentRevision;
 import com.cloudant.sync.datastore.DocumentRevsList;
 import com.cloudant.sync.datastore.MultipartAttachmentWriter;
@@ -45,6 +42,7 @@ interface CouchDB {
     String getCheckpoint(String checkpointId);
     void putCheckpoint(String checkpointId, String sequence);
 
+    AllDocsResult getAllDocs(boolean includeDocs);
     ChangesResult changes(Object lastSequence, int limit);
     ChangesResult changes(PullFilter filter, Object lastSequence, int limit);
     List<DocumentRevs> getRevisions(String documentId,
