@@ -36,7 +36,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-// mw:
 /**
  * @api_private
  */

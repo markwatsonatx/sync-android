@@ -1666,7 +1666,6 @@ public class DatastoreImpl implements Datastore {
      */
     void revsDiffBatch(SQLDatabase db,Multimap<String, String> revisions) throws DatastoreException {
 
-        System.out.println("REVISIONS BEFORE: " + revisions.toString());
         final String sql = String.format(
                 "SELECT docs.docid, revs.revid FROM docs, revs " +
                 "WHERE docs.doc_id = revs.doc_id AND docs.docid IN (%s) AND revs.revid IN (%s) " +
@@ -1691,7 +1690,6 @@ public class DatastoreImpl implements Datastore {
         } catch (SQLException e) {
            throw new DatastoreException(e);
         } finally {
-            System.out.println("REVISIONS AFTER: " + revisions.toString());
             DatabaseUtils.closeCursorQuietly(cursor);
         }
     }

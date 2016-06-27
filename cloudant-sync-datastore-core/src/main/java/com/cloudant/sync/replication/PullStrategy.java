@@ -302,12 +302,9 @@ class PullStrategy implements ReplicationStrategy {
         logger.info(feed);
 
         Multimap<String, String> openRevs = changeFeeds.openRevisions(0, changeFeeds.size());
-        System.out.println("OPEN REVS: " + openRevs.toString());
 
         Map<String, Collection<String>> missingRevisions = this.targetDb.getDbCore().revsDiff
                 (openRevs);
-
-        System.out.println("MISSING REVISIONS: " + missingRevisions.toString());
 
         int changesProcessed = 0;
 

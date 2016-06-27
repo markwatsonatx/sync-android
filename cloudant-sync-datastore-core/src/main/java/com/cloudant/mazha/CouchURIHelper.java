@@ -57,7 +57,6 @@ public class CouchURIHelper {
     }
 
 
-    // mw:start
     /**
      * Returns URI for {@code _all_docs} endpoint.
      */
@@ -71,7 +70,6 @@ public class CouchURIHelper {
         String uri = appendQueryString(base_uri, query);
         return uriFor(uri);
     }
-    // mw:end
 
     /**
      * Returns URI for {@code _changes} endpoint using passed
