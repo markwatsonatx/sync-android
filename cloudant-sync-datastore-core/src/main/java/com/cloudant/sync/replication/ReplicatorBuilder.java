@@ -194,6 +194,10 @@ public abstract class ReplicatorBuilder<S, T, E> {
 
         private boolean pullAttachmentsInline = false;
 
+        private boolean useActiveDocumentRevisionStrategy = false;
+
+        private ActiveDocFetcher activeDocumentRevisionFetcher = null;
+
         @Override
         public Replicator build() {
 
@@ -204,11 +208,23 @@ public abstract class ReplicatorBuilder<S, T, E> {
             // add cookie interceptor and remove creds from URI if required
             super.source = super.addCookieInterceptorIfRequired(super.source);
 
-            PullStrategy pullStrategy = new PullStrategy2(super.source,
-                    super.target,
-                    pullPullFilter,
-                    super.requestInterceptors,
-                    super.responseInterceptors);
+            PullStrategy pullStrategy = null;
+
+            if (this.useActiveDocumentRevisionStrategy) {
+                pullStrategy = new ActiveDocPullStrategy(super.source,
+                        super.target,
+                        pullPullFilter,
+                        super.requestInterceptors,
+                        super.responseInterceptors,
+                        activeDocumentRevisionFetcher);
+            }
+            else {
+                pullStrategy = new PullStrategy(super.source,
+                        super.target,
+                        pullPullFilter,
+                        super.requestInterceptors,
+                        super.responseInterceptors);
+            }
 
             pullStrategy.changeLimitPerBatch = changeLimitPerBatch;
             pullStrategy.batchLimitPerRun = batchLimitPerRun;
@@ -270,6 +286,26 @@ public abstract class ReplicatorBuilder<S, T, E> {
          */
         public Pull pullAttachmentsInline(boolean pullAttachmentsInline) {
             this.pullAttachmentsInline = pullAttachmentsInline;
+            return this;
+        }
+
+        /**
+         * Sets the replicator to use the active document revision strategy.
+         *
+         * @return This instance of {@link ReplicatorBuilder}
+         */
+        public Pull activeDocStrategy() {
+            return this.activeDocStrategy(null);
+        }
+
+        /**
+         * Sets the replicator to use the active document revision strategy and the fetcher to run to retrieve all active document/revisions.
+         *
+         * @return This instance of {@link ReplicatorBuilder}
+         */
+        public Pull activeDocStrategy(ActiveDocFetcher activeDocumentRevisionFetcher) {
+            this.useActiveDocumentRevisionStrategy = true;
+            this.activeDocumentRevisionFetcher = activeDocumentRevisionFetcher;
             return this;
         }
     }
