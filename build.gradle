@@ -12,7 +12,7 @@ apply plugin: 'signing'
 
 allprojects {
     group = 'com.cloudant'
-    version = '1.0.0'
+    version = '1.0.1'
     description = """cloudant-sync"""
     //if the version says "snapshot" anywhere assume it is not a release
     ext.isReleaseVersion = !version.toUpperCase(Locale.ENGLISH).contains("SNAPSHOT")
@@ -42,6 +42,17 @@ subprojects {
     apply plugin: 'maven'
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+            }
+        }
+        repositories {
+            mavenLocal()
+        }
+    }
 
     signing {
         // Only apply signing when it is a release and is being published
@@ -76,8 +87,8 @@ subprojects {
     defaultTasks 'build'
 
     repositories {
-        mavenLocal()
         mavenCentral()
+        mavenLocal()
     }
 
     //
